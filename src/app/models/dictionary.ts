@@ -1,11 +1,16 @@
 import { Map } from 'immutable';
 
+/* Types: */
+
 export type Domain = string;
 export type Range = string;
+export interface ObjectMap { [domain: string]: string };
 export interface Dictionary extends Map<Domain, Range> {}
 
-export function create(): Dictionary {
-  return Map<string, string>();
+/* Public API: */
+
+export function create(map?: ObjectMap): Dictionary {
+  return Map<string, string>(map);
 }
 
 // Will add provided the domain doesn't already exist
@@ -26,6 +31,7 @@ export function remove(domain: Domain, dictionary: Dictionary): Dictionary {
  * Duplicate Domains/Ranges and Domains with different Ranges 
  * will never happen since the Map collection used for the 
  * implementation does simply not allow it.
+ */
 
 /**
  * Cycles: 
@@ -47,6 +53,8 @@ export function hasCicles(dictionary: Dictionary): boolean {
 export function hasChains(dictionary: Dictionary): boolean {
   return false;
 }
+
+/* Private functions: */
 
 function hasDomain(domain: Domain, dictionary: Dictionary): boolean {
   return dictionary.has(domain);
