@@ -11,29 +11,15 @@ describe('Dictionary', () => {
   }));
 
   it('adds domain/range to the dictionary', () => {
-    const dictionary2 = Dictionary.add('Stonegrey', 'Dark Grey', dictionary);
+    const dictionary2 = Dictionary.add('Domain 4', 'Range 4', dictionary);
     expect(dictionary2).not.toBe(dictionary);
     expect(dictionary2.size).toBe(4);
-    expect(dictionary2.get('Stonegrey')).toBe('Dark Grey');
-
-
-    const dictionary3 = Dictionary.add('Midnight Black', 'Black', dictionary2);
-    expect(dictionary3).not.toBe(dictionary2);
-    expect(dictionary3.size).toBe(5);
-    expect(dictionary3.get('Stonegrey')).toBe('Dark Grey');
-    expect(dictionary3.get('Midnight Black')).toBe('Black');
-
-    const dictionary4 = Dictionary.add('Mystic Silver', 'Silver', dictionary3);
-    expect(dictionary4).not.toBe(dictionary3);
-    expect(dictionary4.size).toBe(6);
-    expect(dictionary4.get('Stonegrey')).toBe('Dark Grey');
-    expect(dictionary4.get('Midnight Black')).toBe('Black');
-    expect(dictionary4.get('Mystic Silver')).toBe('Silver');
+    expect(dictionary2.get('Domain 4')).toBe('Range 4');
 
     // Adding a domain that already exists
-    const dictionary5 = Dictionary.add('Mystic Silver', 'Silver', dictionary4);
-    expect(dictionary5).toBe(dictionary4);
-    expect(dictionary4.size).toBe(6);
+    const dictionary3 = Dictionary.add('Domain 3', 'New Range 3', dictionary2);
+    expect(dictionary3).toBe(dictionary2);
+    expect(dictionary3.size).toBe(4);
   });
 
   it('updates the range of an existing domain', () => {
@@ -53,6 +39,11 @@ describe('Dictionary', () => {
     expect(dictionary2).not.toBe(dictionary);
     expect(dictionary2.size).toBe(2);
     expect(dictionary2.get('Domain 3')).toBeUndefined();
+
+    // Removing a domain that doesn't exist
+    const dictionary3 = Dictionary.remove('Domain 4', dictionary2);
+    expect(dictionary3).toBe(dictionary2);
+    expect(dictionary3.size).toBe(2);
   });
 
   xit('checks whether there are cycles in a dictionary', () => {});
