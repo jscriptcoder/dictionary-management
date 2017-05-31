@@ -46,8 +46,24 @@ describe('Dictionary', () => {
     expect(dictionary3.size).toBe(2);
   });
 
-  xit('checks whether there are cycles in a dictionary', () => {});
+  it('checks whether there are chains in a dictionary', () => {
+    // Let's create a chain (a range appears in domains)
+    const dictionary2 = Dictionary.add('Range 2', 'New Range 2', dictionary);
+    expect(dictionary2.size).toBe(4);
+    expect(Dictionary.hasChains(dictionary2)).toBeTruthy();
 
-  xit('checks whether there are chains in a dictionary', () => {});
+    // Let's create a "false" chain (a range appears in domains but it's the same entry)
+    const dictionary3 = Dictionary.add('Domain 4', 'Domain 4', dictionary);
+    expect(dictionary2.size).toBe(4);
+    expect(Dictionary.hasChains(dictionary3)).toBeFalsy();
+  });
+
+  it('checks whether there are cycles in a dictionary', () => {
+    // Let's create a cycle
+    const dictionary2 = Dictionary.add('Range 2', 'Domain 2', dictionary);
+    expect(dictionary2.size).toBe(4);
+    expect(Dictionary.hasChains(dictionary2)).toBeTruthy();
+    expect(Dictionary.hasCycles(dictionary2)).toBeTruthy();
+  });
 
 });
