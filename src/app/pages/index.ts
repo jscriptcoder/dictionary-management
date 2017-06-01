@@ -1,5 +1,6 @@
 import { NgModule } from '@angular/core';
 
+import { HomeComponent } from './home/home';
 import { AddDictionaryComponent } from './add-dictionary/add-dictionary';
 import { EditDictionaryComponent } from './edit-dictionary/edit-dictionary';
 import { ListDictionariesComponent } from './list-dictionaries/list-dictionaries';
@@ -8,6 +9,7 @@ import { NotFoundComponent } from './not-found/not-found';
 
 
 export const PAGES = [
+  HomeComponent,
   AddDictionaryComponent,
   EditDictionaryComponent,
   ListDictionariesComponent,
@@ -16,7 +18,7 @@ export const PAGES = [
 ];
 
 @NgModule({
-  imports: [],
+  imports: [ ],
   declarations: PAGES,
   exports: PAGES
 })

@@ -8,9 +8,13 @@ import { PagesModule } from './pages'
 
 import { AppRoutingModule } from './app-routing';
 import { AppComponent } from './app';
+import { BreadcrumbComponent } from './components/breadcrumb/breadcrumb';
 
 @NgModule({
-  declarations: [ AppComponent ],
+  declarations: [
+    AppComponent,
+    BreadcrumbComponent
+  ],
   imports: [
     BrowserModule,
     FormsModule,
