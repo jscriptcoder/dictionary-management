@@ -1,6 +1,5 @@
-
 import { Action } from '@ngrx/store';
-import { Domain, Range } from '../models/dictionary';
+import { Domain, Range, DomainRange } from '../models/dictionary';
 
 export const ADD_DOMAIN    = '[Dictionary] Add Domain';
 export const REMOVE_DOMAIN = '[Dictionaries] Remove Domain';
@@ -11,7 +10,7 @@ export const UPDATE_DOMAIN = '[Dictionaries] Update Domain';
  */
 export class AddDomainAction implements Action {
   readonly type = ADD_DOMAIN;
-  constructor(public domain: Dictionary, range: Range) { }
+  constructor(public payload: DomainRange) { }
 }
 
 /**
@@ -19,7 +18,7 @@ export class AddDomainAction implements Action {
  */
 export class RemoveDomainAction implements Action {
   readonly type = REMOVE_DOMAIN;
-  constructor(public domain: Domain) { }
+  constructor(public payload: Domain) { }
 }
 
 /**
@@ -27,7 +26,7 @@ export class RemoveDomainAction implements Action {
  */
 export class UpdateDomainAction implements Action {
   readonly type = UPDATE_DOMAIN;
-  constructor(public domain: Dictionary, range: Range) { }
+  constructor(public payload: DomainRange) { }
 }
 
 export type Actions

@@ -2,10 +2,10 @@
  * This component is based on:
  * http://brianflove.com/2016/10/23/angular2-breadcrumb-using-router/
  */
-
+ 
+import 'rxjs/add/operator/filter';
 import { Component, OnInit } from '@angular/core';
 import { Router, ActivatedRoute, NavigationEnd, Params, PRIMARY_OUTLET } from '@angular/router';
-import 'rxjs/add/operator/filter';
 
 interface Breadcrumb {
   label: string;

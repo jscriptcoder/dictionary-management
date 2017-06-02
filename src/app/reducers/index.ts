@@ -1,5 +1,6 @@
 import { createSelector } from 'reselect';
 import { ActionReducer } from '@ngrx/store';
+import { combineReducers } from '@ngrx/store'
 import * as fromRouter from '@ngrx/router-store';
 
 export interface State {}

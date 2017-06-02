@@ -4,8 +4,20 @@ import { Map } from 'immutable';
 
 export type Domain = string;
 export type Range = string;
-export interface ObjectMap { [domain: string]: string };
-export interface Dictionary extends Map<Domain, Range> {}
+
+export interface ObjectMap {
+  [key: string]: string
+};
+
+export interface DomainRange {
+  domain: Domain;
+  range: Range
+};
+
+export interface Dictionary extends Map<Domain, Range> {
+  id: number;
+  name: string;
+}
 
 type Chain = [[Domain, Range], [Domain, Range]];
 type Cycle = Chain;
@@ -14,22 +26,25 @@ type MaybeCyle = Cycle | undefined;
 
 /* Public API: */
 
-export function create(map?: ObjectMap): Dictionary {
-  return Map<string, string>(map);
+export function create(name: string, map?: ObjectMap): Dictionary {
+  return Object.assign(Map<string, string>(map), {
+    id: uuid(),
+    name
+  });
 }
 
 // Will add provided the domain doesn't already exist
 export function add(domain: Domain, range: Range, dictionary: Dictionary): Dictionary {
-  return !hasDomain(domain, dictionary) ? dictionary.set(domain, range) : dictionary;
+  return !hasDomain(domain, dictionary) ? setEntry(domain, range, dictionary) : dictionary;
 }
 
 // Will update provided the domain already exists
 export function update(domain: Domain, range: Range, dictionary: Dictionary): Dictionary {
-  return hasDomain(domain, dictionary) ? dictionary.set(domain, range) : dictionary;
+return hasDomain(domain, dictionary) ? setEntry(domain, range, dictionary) : dictionary;
 }
 
 export function remove(domain: Domain, dictionary: Dictionary): Dictionary {
-  return dictionary.remove(domain);
+  return deleteEntry(domain, dictionary);
 }
 
 /**
@@ -80,6 +95,23 @@ export function hasCycles(dictionary: Dictionary): boolean {
 }
 
 /* Private functions: */
+
+// Helper function que get an universal unique id (sort of)
+const uuid = () => new Date().getTime();
+
+function setEntry(domain: Domain, range: Range, dictionary: Dictionary): Dictionary {
+  return Object.assign(dictionary.set(domain, range), {
+    id: dictionary.id,
+    name: dictionary.name
+  });
+}
+
+function deleteEntry(domain: Domain, dictionary: Dictionary): Dictionary {
+  return Object.assign(dictionary.remove(domain), {
+    id: dictionary.id,
+    name: dictionary.name
+  });
+}
 
 function hasDomain(domain: Domain, dictionary: Dictionary): boolean {
   return dictionary.has(domain);

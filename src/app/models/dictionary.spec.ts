@@ -4,7 +4,7 @@ describe('Dictionary', () => {
 
   let dictionary: Dictionary.Dictionary;
 
-  beforeEach(() => dictionary = Dictionary.create({
+  beforeEach(() => dictionary = Dictionary.create('Test Dictionary', {
     'Domain 1': 'Range 1',
     'Domain 2': 'Range 2',
     'Domain 3': 'Range 3'

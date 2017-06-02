@@ -1,7 +1,7 @@
 
 import { NgModule, } from '@angular/core';
 import { CommonModule } from '@angular/common';
-import { FormsModule } from '@angular/form';
+import { FormsModule } from '@angular/forms';
 import { BrowserModule } from '@angular/platform-browser';
 import { MaterialModule } from '@angular/material';
 
@@ -15,6 +15,8 @@ import { PagesModule } from './pages'
 import { AppRoutingModule } from './app-routing';
 import { AppComponent } from './app';
 import { BreadcrumbComponent } from './components/breadcrumb/breadcrumb';
+
+import { DictionariesEffects } from './effects/list-dictionaries';
 
 import { reducer } from './reducers';
 import { schema } from './db';
@@ -46,6 +48,15 @@ import { schema } from './db';
      * the store as the single source of truth for the router's state.
      */
     RouterStoreModule.connectRouter(),
+
+    /**
+     * EffectsModule.run() sets up the effects class to be initialized
+     * immediately when the application starts.
+     *
+     * See: https://github.com/ngrx/effects/blob/master/docs/api.md#run
+     */
+    EffectsModule.run(DictionariesEffects),
+    // EffectsModule.run(DictionaryEffects),
 
     /**
      * `provideDB` sets up @ngrx/db with the provided schema and makes the Database
