@@ -1,6 +1,6 @@
 <ul class="breadcrumb">
-  <li *ngFor="let breadcrumb of breadcrumbs; let lastChild=last">
-    <span *ngIf="lastChild">{{breadcrumb.label}}</span>
-    <a *ngIf="!lastChild" [routerLink]="[breadcrumb.url]">{{breadcrumb.label}}</a>
+  <li *ngFor="let breadcrumb of breadcrumbs; let lastLink = last">
+    <span *ngIf="lastLink">{{breadcrumb.label}}</span>
+    <a *ngIf="!lastLink" [routerLink]="[breadcrumb.url]">{{breadcrumb.label}}</a>
   </li>
 </ul>

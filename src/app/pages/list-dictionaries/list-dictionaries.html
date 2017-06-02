@@ -1,1 +1,18 @@
-List of dictionaries
+<md-card class="list-dictionaries">
+  <md-card-title>List of Dictionaries</md-card-title>
+  <md-card-content>
+    <a class="add-new" md-raised-button color="primary" href="#/dictionaries/add">
+      <md-icon>book</md-icon>
+      <span>Add new Dictionary</span>
+    </a>
+  <md-nav-list>
+    <md-list-item>
+        <a md-line href="#/dictionaries/view/1">Dictionary 1</a>
+        <span class="dictionary-actions">
+          <a title="Edit dictionary" class="edit-dictionary" md-mini-fab href="#/dictionaries/edit/1"><md-icon>mode_edit</md-icon></a>
+          <button title="Delete dictionary" class="delete-dictionary" color="warn" md-mini-fab><md-icon>delete</md-icon></button>
+        </span>
+    </md-list-item>
+  </md-nav-list>
+  </md-card-content>
+</md-card>

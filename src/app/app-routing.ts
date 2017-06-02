@@ -20,7 +20,7 @@ const routes: Routes = [
       {
         path: '',
         component: HomeComponent,
-        data: { breadcrumb: 'Dashboard' },
+        data: { breadcrumb: 'Index' },
       },
       {
         path: 'dictionaries',
@@ -30,23 +30,23 @@ const routes: Routes = [
           {
             path: '',
             component: ListDictionariesComponent,
-            data: { breadcrumb: 'List' },
+            data: { breadcrumb: 'Listing' },
           },
           {
             path: 'add',
             component: AddDictionaryComponent,
-            data: { breadcrumb: 'Add Dictionary' }
+            data: { breadcrumb: 'Adding new' }
           },
           {
             path: 'view/:id',
             component: ViewDictionaryComponent,
-            data: { breadcrumb: 'Dictionary' }
+            data: { breadcrumb: 'Viewing' }
           },
 
           {
             path: 'edit/:id',
             component: EditDictionaryComponent,
-            data: { breadcrumb: 'Edit Dictionary' }
+            data: { breadcrumb: 'Editing' }
           }
         ]
       }

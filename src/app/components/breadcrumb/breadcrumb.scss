@@ -1,0 +1,30 @@
+@import '~@angular/material/theming';
+
+.breadcrumb {
+
+    padding: 10px;
+    background-color: map-get($mat-blue, 50);
+    border-radius: 4px;
+
+  li {
+    display: inline-block;
+    list-style: none;
+    margin-right: 5px;
+
+    &:after {
+      display: inline-block;
+      content: "/";
+      margin-left: 5px;
+    }
+
+    &:last-child:after {
+      content: "";
+    }
+  }
+
+  a {
+    text-decoration: none;
+    color: map-get($mat-blue, 900);
+  }
+
+}

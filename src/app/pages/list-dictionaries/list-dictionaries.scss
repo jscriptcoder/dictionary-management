@@ -1,0 +1,16 @@
+@import '~@angular/material/theming';
+
+.list-dictionaries {
+
+  .dictionary-actions {
+    display: none;
+
+    .edit-dictionary { margin-right: 10px; }
+  }
+
+  md-list-item:hover {
+    background-color: map-get($mat-blue, 50);
+    .dictionary-actions { display: flex; }
+  }
+
+}

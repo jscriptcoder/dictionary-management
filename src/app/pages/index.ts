@@ -1,4 +1,5 @@
 import { NgModule } from '@angular/core';
+import { MaterialModule } from '@angular/material';
 
 import { HomeComponent } from './home/home';
 import { AddDictionaryComponent } from './add-dictionary/add-dictionary';
@@ -18,7 +19,7 @@ export const PAGES = [
 ];
 
 @NgModule({
-  imports: [ ],
+  imports: [ MaterialModule ],
   declarations: PAGES,
   exports: PAGES
 })
