@@ -6,17 +6,13 @@ export type Domain = string;
 export type Range = string;
 
 export interface ObjectMap {
-  [key: string]: string
+  [key: string]: string;
 };
 
-export interface DomainRange {
-  domain: Domain;
-  range: Range
-};
-
-export interface Dictionary extends Map<Domain, Range> {
+export interface Dictionary {
   id: number;
   name: string;
+  map: ObjectMap;
 }
 
 type Chain = [[Domain, Range], [Domain, Range]];
@@ -26,11 +22,12 @@ type MaybeCyle = Cycle | undefined;
 
 /* Public API: */
 
-export function create(name: string, map?: ObjectMap): Dictionary {
-  return Object.assign(Map<string, string>(map), {
+export function create(name: string, map: ObjectMap = {}): Dictionary {
+  return {
     id: uuid(),
-    name
-  });
+    name,
+    map: Object.assign({}, map)
+  };
 }
 
 // Will add provided the domain doesn't already exist
@@ -44,7 +41,15 @@ return hasDomain(domain, dictionary) ? setEntry(domain, range, dictionary) : dic
 }
 
 export function remove(domain: Domain, dictionary: Dictionary): Dictionary {
-  return deleteEntry(domain, dictionary);
+  return hasDomain(domain, dictionary) ? deleteEntry(domain, dictionary) : dictionary;
+}
+
+export function size(dictiomary: Dictionary): number {
+  return Object.keys(dictiomary.map).length;
+}
+
+export function get(domain: Domain, dictionary: Dictionary): Range {
+  return dictionary.map[domain];
 }
 
 /**
@@ -96,40 +101,39 @@ export function hasCycles(dictionary: Dictionary): boolean {
 
 /* Private functions: */
 
-// Helper function que get an universal unique id (sort of)
 const uuid = () => new Date().getTime();
+const cloneObj = (obj: ObjectMap): ObjectMap => Object.assign({}, obj);
 
 function setEntry(domain: Domain, range: Range, dictionary: Dictionary): Dictionary {
-  return Object.assign(dictionary.set(domain, range), {
-    id: dictionary.id,
-    name: dictionary.name
-  });
+  const map = cloneObj(dictionary.map);
+  map[domain] = range;
+  return Object.assign({}, dictionary, { map });
 }
 
 function deleteEntry(domain: Domain, dictionary: Dictionary): Dictionary {
-  return Object.assign(dictionary.remove(domain), {
-    id: dictionary.id,
-    name: dictionary.name
-  });
+  const map = cloneObj(dictionary.map);
+  delete map[domain];
+  return Object.assign({}, dictionary, { map });
 }
 
 function hasDomain(domain: Domain, dictionary: Dictionary): boolean {
-  return dictionary.has(domain);
-}
-
-function hasRange(range: Range, dictionary: Dictionary): boolean {
-  return dictionary.contains(range);
+  return Object.keys(dictionary.map).indexOf(domain) >= 0;
 }
 
 function findChain(dictionary: Dictionary): MaybeChain {
-  const chainStart = <[Domain, Range]>dictionary.findEntry((range: Range, domain: Domain) => {
-    return range !== domain && dictionary.has(<Domain>range);
+  const domains = <Domain[]>Object.keys(dictionary.map);
+
+  let chainStart = <[Domain, Range]>[];
+  let chainEnd = <[Domain, Range]>[];
+
+  const domainChainStart = domains.find(domain => {
+    const range = dictionary.map[domain];
+    return range !== domain && domains.indexOf(range) >= 0;
   });
 
-  if (chainStart) {
-    const chainEnd = <[Domain, Range]>dictionary.findEntry((range: Range, domain: Domain) => {
-      return domain === chainStart[1];
-    });
+  if (domainChainStart) {
+    chainStart = [domainChainStart, dictionary.map[domainChainStart]];
+    chainEnd = [chainStart[1], dictionary.map[chainStart[1]]];
 
     return [chainStart, chainEnd];
   }
