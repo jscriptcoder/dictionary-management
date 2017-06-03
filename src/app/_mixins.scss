@@ -1,0 +1,5 @@
+@mixin box($border-width, $border-radius, $padding) {
+  border: $border-width solid rgba(0,0,0,0.12);
+  border-radius: $border-radius;
+  padding: $padding;
+}
