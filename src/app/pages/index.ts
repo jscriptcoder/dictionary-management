@@ -5,6 +5,7 @@ import { MaterialModule } from '@angular/material';
 import { RouterModule } from '@angular/router';
 
 import { FormDictionaryComponent } from '../components/form-dictionary/form-dictionary';
+import { DetailDictionaryComponent } from '../components/detail-dictionary/detail-dictionary';
 import { NavDictionariesComponent } from '../components/nav-dictionaries/nav-dictionaries';
 import { ConfirmDeleteDictionaryComponent } from '../components/nav-dictionaries/confirm-delete-dictionary';
 
@@ -33,6 +34,8 @@ export const PAGES = [
     ConfirmDeleteDictionaryComponent,
     NavDictionariesComponent,
     FormDictionaryComponent,
+    DetailDictionaryComponent,
+    
     FocusInput,
     KeyablePipe,
     

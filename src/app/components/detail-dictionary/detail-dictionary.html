@@ -1,0 +1,17 @@
+<div class="detail-dictionary">
+  <h3 class="dictionary-name">{{dictionary.name}}</h3>
+
+  <table cellspacing="0">
+    <tr>
+      <th>Domain</th>
+      <th>Range</th>
+    </tr>
+
+    <tr *ngFor="let entry of dictionary.list">
+      <td>{{entry.domain}}</td>
+      <td>{{entry.range}}</td>
+    </tr>
+
+  </table>
+
+</div>
