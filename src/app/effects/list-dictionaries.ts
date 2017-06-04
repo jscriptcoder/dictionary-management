@@ -59,5 +59,15 @@ export class DictionariesEffects {
         .catch(() => of(new dictionaries.RemoveDictionaryFailAction(dictionary)))
     );
 
+  @Effect()
+  updateDictionary$: Observable<Action> = this.actions$
+    .ofType(dictionaries.UPDATE_DICTIONARY)
+    .map((action: dictionaries.UpdateDictionaryAction) => action.payload)
+    .mergeMap(dictionary =>
+      this.db.executeWrite(DICTIONARIES_TABLE, 'put', [ dictionary ])
+        .map(() => new dictionaries.UpdateDictionarySuccessAction(dictionary))
+        .catch(() => of(new dictionaries.UpdateDictionaryFailAction(dictionary)))
+    );
+
     constructor(private actions$: Actions, private db: Database) { }
 }

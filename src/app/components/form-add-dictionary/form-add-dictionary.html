@@ -1,23 +1,71 @@
 <form class="form-add-dictionary">
-  <md-input-container>
-    <input mdInput placeholder="Dictionary name">
+  <md-input-container class="dictionary-name">
+
+    <input 
+      focus-input 
+      name="dictionary-name" 
+      mdInput 
+      placeholder="Dictionary name" 
+      [(ngModel)]="dictionary.name"
+      required>
+
   </md-input-container>
+
   <table cellspacing="0">
     <tr>
       <th>Domain</th>
       <th>Range</th>
     </tr>
-    <tr>
+
+    <tr *ngFor="let entry of dictionary.list">
       <td>
         <md-input-container>
-          <input mdInput>
+
+          <input 
+            name="domain-{{entry.domain | keyable}}" 
+            mdInput 
+            [(ngModel)]="entry.domain">
+
         </md-input-container>
       </td>
       <td>
         <md-input-container>
-          <input mdInput>
+
+          <input 
+            name="range_for-{{entry.domain | keyable}}" 
+            mdInput 
+            [(ngModel)]="entry.range"
+            required>
+
         </md-input-container>
       </td>
     </tr>
+
+    <tr class="new-entry">
+      <td>
+        <md-input-container>
+
+          <input 
+            #newEntryDomainInput 
+            name="new_entry-domain" 
+            mdInput 
+            [(ngModel)]="newEntry.domain">
+
+        </md-input-container>
+      </td>
+      <td>
+        <md-input-container>
+
+          <input 
+            name="new_entry-range"
+            mdInput 
+            [(ngModel)]="newEntry.range" 
+            (keydown.enter)="onKeydownEnter()"
+            (blur)="addEntry()">
+
+        </md-input-container>
+      </td>
+    </tr>
+
   </table>
 </form>

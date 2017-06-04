@@ -34,6 +34,9 @@ export function create(name: string, list: DomainRange[] = []): Dictionary {
 // Will add provided the domain doesn't already exist
 export function add(domain: Domain, range: Range, dictionary: Dictionary): Dictionary {
   // return !hasDomain(domain, dictionary) ? addEntry(domain, range, dictionary) : dictionary;
+
+  // We'll allow to enter a duplicated domain, since the validation will
+  // happen somewhere else
   return addEntry(domain, range, dictionary);
 }
 
@@ -61,14 +64,34 @@ export function getRange(domain: Domain, dictionary: Dictionary): Range {
 }
 
 /**
- * Duplicate Domains/Ranges and Domains with different Ranges 
+ * Duplicate Domains/Ranges: 
  * 
- * Two rows in the dictionary map to different values, resulting in 
- * an ambiguous transformation.
+ * Two rows in the dictionary map to the same value, simply 
+ * resulting in duplicate content.
  *
  * Example:
  *   domain1 -> range1
- *   domain1 -> range1/whatever
+ *   domain1 -> range1
+ */
+export function hasDuplicateDomainRange(dictionary: Dictionary): boolean {
+  return !!dictionary.list.find((entry, idx) => {
+    return !!dictionary.list.find((entry2, idx2) => {
+      return idx2 !== idx && 
+        entry2.domain === entry.domain && 
+        entry2.range === entry.range;
+    });
+  });
+}
+
+/**
+ * Duplicate Domains with different Ranges: 
+ * 
+ * Two rows in the dictionary map to different values, resulting 
+ * in an ambiguous transformation.
+ *
+ * Example:
+ *   domain1 -> range1
+ *   domain1 -> range2
  */
 export function hasDuplicateDomain(dictionary: Dictionary): boolean {
   return !!dictionary.list.find((entry, idx) => {

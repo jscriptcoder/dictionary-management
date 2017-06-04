@@ -35,7 +35,7 @@ const routes: Routes = [
           {
             path: 'add',
             component: AddDictionaryComponent,
-            data: { breadcrumb: 'Adding new' }
+            data: { breadcrumb: 'Adding' }
           },
           {
             path: 'view/:id',
@@ -61,7 +61,6 @@ const routes: Routes = [
 
 @NgModule({
   imports: [ RouterModule.forRoot(routes, { useHash: true }) ],
-  exports: [ RouterModule ],
   declarations: [ RoutingRootComponent ]
 })
 export class AppRoutingModule { }

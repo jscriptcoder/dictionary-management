@@ -56,8 +56,19 @@ describe('Dictionary', () => {
   it('checks wether there are duplicate domains', () => {
     expect(Dictionary.hasDuplicateDomain(dictionary)).toBeFalsy();
 
-    const dictionary2 = Dictionary.add('Domain 2', 'Range 2', dictionary);
+    const dictionary2 = Dictionary.add('Domain 2', 'Range X', dictionary);
     expect(Dictionary.hasDuplicateDomain(dictionary2)).toBeTruthy();
+  });
+
+  it('checks wether there are duplicate domain/range', () => {
+    expect(Dictionary.hasDuplicateDomainRange(dictionary)).toBeFalsy();
+
+    const dictionary2 = Dictionary.add('Domain 2', 'Range X', dictionary);
+    expect(Dictionary.hasDuplicateDomain(dictionary2)).toBeTruthy();
+    expect(Dictionary.hasDuplicateDomainRange(dictionary2)).toBeFalsy();
+
+    const dictionary3 = Dictionary.add('Domain 2', 'Range 2', dictionary);
+    expect(Dictionary.hasDuplicateDomainRange(dictionary3)).toBeTruthy();
   });
 
   it('checks whether there are chains in a dictionary', () => {
