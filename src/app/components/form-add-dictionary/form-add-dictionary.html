@@ -17,7 +17,7 @@
       <th>Range</th>
     </tr>
 
-    <tr *ngFor="let entry of dictionary.list">
+    <tr *ngFor="let entry of enteredEntries; let idx = index">
       <td>
         <md-input-container>
 
@@ -28,7 +28,7 @@
 
         </md-input-container>
       </td>
-      <td>
+      <td class="input-range-wrapper">
         <md-input-container>
 
           <input 
@@ -38,6 +38,10 @@
             required>
 
         </md-input-container>
+
+        <button title="Delete entry" class="delete-entry" color="warn" md-mini-fab (click)="deleteEntry(idx)">
+          <md-icon>delete</md-icon>
+        </button>
       </td>
     </tr>
 
@@ -49,21 +53,24 @@
             #newEntryDomainInput 
             name="new_entry-domain" 
             mdInput 
-            [(ngModel)]="newEntry.domain">
+            [(ngModel)]="lastEntry.domain">
 
         </md-input-container>
       </td>
-      <td>
+      <td class="input-range-wrapper">
         <md-input-container>
 
           <input 
             name="new_entry-range"
             mdInput 
-            [(ngModel)]="newEntry.range" 
-            (keydown.enter)="onKeydownEnter()"
-            (blur)="addEntry()">
+            [(ngModel)]="lastEntry.range" 
+            (keydown)="onKeydown($event)">
 
         </md-input-container>
+
+        <button title="Empty entry" class="delete-entry" color="warn" md-mini-fab (click)="emptyLastEntry()">
+          <md-icon>delete</md-icon>
+        </button>
       </td>
     </tr>
 

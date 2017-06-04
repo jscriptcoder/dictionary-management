@@ -9,7 +9,6 @@ import * as fromRoot from '../../reducers';
 
 @Component({
   selector: 'list-dictionaries',
-  changeDetection: ChangeDetectionStrategy.OnPush,
   templateUrl: './list-dictionaries.html',
   styleUrls: ['./list-dictionaries.scss'],
 })

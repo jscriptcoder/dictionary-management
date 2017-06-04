@@ -3,7 +3,6 @@ import { Store } from '@ngrx/store';
 
 import * as fromRoot from '../../reducers';
 import { AddDictionaryAction } from '../../actions/list-dictionaries';
-
 import { FormAddDictionaryComponent } from '../../components/form-add-dictionary/form-add-dictionary';
 
 
@@ -22,8 +21,14 @@ export class AddDictionaryComponent {
     this.store = store;
   }
 
+  public isDictionaryValid(): boolean {
+    return this.formAddDictionary.isDictionaryValid();
+  }
+
   public saveDictionary(): void {
-    this.store.dispatch(new AddDictionaryAction(this.formAddDictionary.dictionary));
+    this.store.dispatch(
+      new AddDictionaryAction(this.formAddDictionary.getSanitizedDictionary())
+    );
   }
   
 }

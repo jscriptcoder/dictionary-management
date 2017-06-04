@@ -17,4 +17,11 @@
     .dictionary-actions { display: flex; }
   }
 
+  .mat-mini-fab {
+    width: 30px;
+    height: 30px;
+
+    & .mat-icon { padding-top: 3px; }
+  }
+
 }

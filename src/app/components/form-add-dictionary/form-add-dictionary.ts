@@ -21,7 +21,6 @@ enum KEY_CODES {
 export class FormAddDictionaryComponent {
   
   public dictionary: Dictionary;
-  public newEntry: DomainRange;
 
   @ViewChild('newEntryDomainInput') newEntryDomainInput: ElementRef;
 
@@ -31,37 +30,86 @@ export class FormAddDictionaryComponent {
     this.dictService = dictService;
 
     this.dictionary = dictService.create(''); // Empty dictionary
-    this.newEntry = { domain: '', range: ''}
+    this.newEmptyEntry();
+
   }
 
-  public onKeydownEnter($event: KeyboardEvent): void {
+  public get enteredEntries(): DomainRange[] {
+    return this.dictionary.list.length < 2 ? [] : this.dictionary.list.slice(0, this.dictionary.list.length - 1);
+  }
+
+  public get lastEntry(): DomainRange {
+    return this.dictionary.list.length === 0 ? <DomainRange>{} : this.dictionary.list[this.dictionary.list.length - 1];
+  }
+
+  public onKeydown($event: KeyboardEvent): void {
+    if ([KEY_CODES.tab, KEY_CODES.enter].includes($event.keyCode)) {
       $event.preventDefault();
-      this.addEntry();
-  }
 
-  public onBlur(): void {
-      this.addEntry();
-  }
+      if (this.isLastEntryValid()) {
+        this.newEmptyEntry();
+        this.newEntryDomainInput.nativeElement.focus();
+      }
 
-  public deleteEntry(domain: Domain) {
-    const [ , idx] = this.dictService.findFromDomain(domain, this.dictionary);
-    if (idx => 0) {
-      this.dictionary.list.splice(idx, 1); // I know!!, I'm mutating again. Shame on me
     }
   }
 
-  private addEntry(): void {
-      if (this.isNewEntryValid()) {
-
-        this.dictionary.list.push(this.newEntry); // I know, I'm mutating
-        this.newEntry = { domain: '', range: ''};
-
-        this.newEntryDomainInput.nativeElement.focus();
-
-      }
+  public deleteEntry(idx: number): void {
+    if (idx => 0) {
+      // I know!!, I'm mutating again. Shame on me
+      this.dictionary.list.splice(idx, 1);
+    }
   }
 
-  private isNewEntryValid(): boolean {
-    return this.newEntry.domain !== '' && this.newEntry.range !== '';
+  public emptyLastEntry(): void {
+    this.lastEntry.domain = '';
+    this.lastEntry.range = '';
+  }
+
+  public isDictionaryValid(): boolean {
+    const len = this.dictionary.list.length;
+
+    if (len > 0) {
+      const lastEntry = this.lastEntry;
+
+      // This validation only checks whether the dictionary
+      // has a title, it's not empty, and all its entries are 
+      // populated, except the case the last one, newEmptyEntry, 
+      // is completely empty, in which case it's still valid.
+      return this.dictionary.name !== '' &&
+        !this.enteredEntries.find((entry, idx) => !this.isEntryValid(idx)) &&
+        (
+          // Either the both values are populated
+          (lastEntry.domain !== '' && lastEntry.range !== '') ||
+          // or both values are empty
+          (lastEntry.domain === '' && lastEntry.range === '')
+        );
+
+    } else {
+      return false;
+    }
+  }
+
+  public getSanitizedDictionary(): Dictionary {
+    const lastEntry = this.lastEntry;
+    if (lastEntry.domain === '' || lastEntry.range === '') {
+      this.dictionary.list = this.enteredEntries;
+    }
+
+    return this.dictionary;
+  }
+
+  private isLastEntryValid(): boolean {
+    return this.lastEntry.domain !== '' && this.lastEntry.range !== '';
+  }
+
+  private isEntryValid(idx: number): boolean {
+    const entry = this.dictionary.list[idx];
+    return entry.domain !== '' && entry.range !== '';
+  }
+
+  private newEmptyEntry(): void {
+    // I know, I'm mutating
+    this.dictionary.list.push({ domain: '', range: '' });
   }
 }

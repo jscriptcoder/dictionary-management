@@ -8,7 +8,7 @@
       <md-icon>cancel</md-icon>
       <span>Cancel</span>
     </a>
-    <button class="save-new" md-raised-button color="primary" (click)="saveDictionary()">
+    <button class="save-new" md-raised-button color="primary" (click)="saveDictionary()" [disabled]="!isDictionaryValid()">
       <md-icon>note_add</md-icon>
       <span>Add</span>
     </button>
