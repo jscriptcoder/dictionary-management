@@ -11,8 +11,9 @@ import { Dictionary } from '../../models/dictionary';
   styleUrls: ['./nav-dictionaries.scss'],
 })
 export class NavDictionariesComponent {
-  @Input() public dictionaries: Dictionary[] = [];
-
+  
+  @Input() 
+  public dictionaries: Dictionary[] = [];
   public dialog: MdDialog;
 
   constructor(dialog: MdDialog) {

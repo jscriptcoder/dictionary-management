@@ -30,7 +30,7 @@ export class BreadcrumbComponent implements OnInit {
     this.breadcrumbs = [];
   }
 
-  ngOnInit() {
+  public ngOnInit(): void {
     this.router.events
       .filter(event => event instanceof NavigationEnd)
       .subscribe(event => {

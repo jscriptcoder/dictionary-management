@@ -1,10 +1,10 @@
 <md-card class="add-dictionary">
   <md-card-title>New Dictionary</md-card-title>
   <md-card-content>
-  <form-add-dictionary></form-add-dictionary>
+  <form-dictionary [dictionary]="createEmptyDictionary()"></form-dictionary>
   </md-card-content>
   <md-card-actions>
-    <a class="cancel-new" md-raised-button href="#/dictionaries">
+    <a class="cancel-new" md-raised-button [routerLink]="['/dictionaries/']">
       <md-icon>cancel</md-icon>
       <span>Cancel</span>
     </a>
@@ -13,5 +13,4 @@
       <span>Add</span>
     </button>
   </md-card-actions>
-  <md-card-footer></md-card-footer>
 </md-card>

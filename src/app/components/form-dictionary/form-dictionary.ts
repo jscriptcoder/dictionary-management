@@ -1,5 +1,4 @@
-import { Component, ViewChild, ElementRef } from '@angular/core';
-import { DictionaryService } from '../../services/dictionary';
+import { Component, Input, OnInit ,ViewChild, ElementRef } from '@angular/core';
 import { Dictionary, Domain, DomainRange } from '../../models/dictionary';
 
 enum KEY_CODES {
@@ -13,25 +12,22 @@ enum KEY_CODES {
  */
 
 @Component({
-  selector: 'form-add-dictionary',
-  templateUrl: './form-add-dictionary.html',
-  styleUrls: ['./form-add-dictionary.scss'],
-  providers: [ DictionaryService ]
+  selector: 'form-dictionary',
+  templateUrl: './form-dictionary.html',
+  styleUrls: ['./form-dictionary.scss'],
 })
-export class FormAddDictionaryComponent {
-  
+export class FormDictionaryComponent implements OnInit {
+
+  @Input('dictionary')
+  public dictionaryInput: Dictionary;
   public dictionary: Dictionary;
 
-  @ViewChild('newEntryDomainInput') newEntryDomainInput: ElementRef;
+  @ViewChild('newEntryDomainInput')
+  public newEntryDomainInput: ElementRef;
 
-  private dictService: DictionaryService;
-
-  constructor(dictService: DictionaryService) {
-    this.dictService = dictService;
-
-    this.dictionary = dictService.create(''); // Empty dictionary
-    this.newEmptyEntry();
-
+  public ngOnInit(): void {
+    // This is necessary since the input is readonly
+    this.dictionary = this.dictionaryInput;
   }
 
   public get enteredEntries(): DomainRange[] {
