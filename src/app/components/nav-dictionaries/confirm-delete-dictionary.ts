@@ -4,12 +4,32 @@ import { MdDialogRef, MD_DIALOG_DATA } from '@angular/material';
 @Component({
   selector: 'confirm-delete-dictionary',
   template: `
-    <h3 md-dialog-title>Confirm delete</h3>
-    <p md-dialog-content>Do you really want to delete {{data.dictionaryName}}?</p>
+    <h3 md-dialog-title>
+      <span>Confirm delete</span>
+      <md-icon color="warn">warning</md-icon>
+    </h3>
+    <p md-dialog-content>Do you really want to delete {{data.dictionary.name}}?</p>
     <div md-dialog-actions>
-      Actions here
+      <button md-dialog-close="no" class="cancel-delete" md-raised-button>
+        <md-icon>clear</md-icon>
+        <span>No</span>
+      </button>
+      <button md-dialog-close="yes" class="yes-delete" md-raised-button color="primary">
+        <md-icon>done</md-icon>
+        <span>Yes</span>
+      </button>
     </div>
   `,
+  styles: [`
+    [md-dialog-title] {
+      display: flex;
+      justify-content: space-between;
+    }
+    [md-dialog-actions] {
+      display: flex;
+      justify-content: flex-end;
+    }
+  `]
 })
 export class ConfirmDeleteDictionaryComponent {
 
@@ -22,5 +42,9 @@ export class ConfirmDeleteDictionaryComponent {
 
     this.dialogRef = dialogRef;
     this.data = data;
+  }
+
+  public yesDelete() {
+
   }
 }

@@ -28,6 +28,7 @@ export class FormDictionaryComponent implements OnInit {
   public ngOnInit(): void {
     // This is necessary since the input is readonly
     this.dictionary = this.dictionaryInput;
+    this.addEmptyEntry();
   }
 
   public get enteredEntries(): DomainRange[] {
@@ -43,7 +44,7 @@ export class FormDictionaryComponent implements OnInit {
       $event.preventDefault();
 
       if (this.isLastEntryValid()) {
-        this.newEmptyEntry();
+        this.addEmptyEntry();
         this.newEntryDomainInput.nativeElement.focus();
       }
 
@@ -104,7 +105,7 @@ export class FormDictionaryComponent implements OnInit {
     return entry.domain !== '' && entry.range !== '';
   }
 
-  private newEmptyEntry(): void {
+  private addEmptyEntry(): void {
     // I know, I'm mutating
     this.dictionary.list.push({ domain: '', range: '' });
   }

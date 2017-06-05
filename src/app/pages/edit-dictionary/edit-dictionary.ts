@@ -1,9 +1,14 @@
 import { Component, OnInit, ViewChild } from '@angular/core';
-import { ActivatedRoute, Params } from '@angular/router';
+import { Router, ActivatedRoute, Params } from '@angular/router';
 import { Store } from '@ngrx/store';
 
 import * as fromRoot from '../../reducers';
-import { UpdateDictionaryAction } from '../../actions/list-dictionaries';
+import { 
+    UpdateDictionaryAction, 
+    UpdateDictionarySuccessAction, 
+    UpdateDictionaryFailAction } from '../../actions/list-dictionaries';
+import { DictionaryService } from '../../services/dictionary';
+import { DictionariesEffects } from '../../effects/list-dictionaries';
 
 import { Dictionary } from '../../models/dictionary';
 import { FormDictionaryComponent } from '../../components/form-dictionary/form-dictionary';
@@ -19,12 +24,21 @@ export class EditDictionaryComponent implements OnInit {
   @ViewChild(FormDictionaryComponent)
   private formDictionary: FormDictionaryComponent;
   private store: Store<fromRoot.State>
+  private router: Router;
   private route: ActivatedRoute;
   private dictionary: Dictionary;
 
-  constructor(store: Store<fromRoot.State>, route: ActivatedRoute) {
+  constructor(
+    store: Store<fromRoot.State>, 
+    router: Router,
+    route: ActivatedRoute, 
+    dictsEffects: DictionariesEffects
+  ) {
     this.store = store;
+    this.router = router;
     this.route = route;
+
+    this.addSubscriptions(dictsEffects);
   }
 
   public ngOnInit(): void {
@@ -47,6 +61,16 @@ export class EditDictionaryComponent implements OnInit {
     this.store.dispatch(
       new UpdateDictionaryAction(this.formDictionary.getSanitizedDictionary())
     );
+  }
+
+  private addSubscriptions(dictsEffects: DictionariesEffects): void {
+    dictsEffects.updateDictionary$.subscribe(action => {
+      if (action instanceof UpdateDictionarySuccessAction) {
+        this.router.navigate(['/dictionaries']);
+      } else if (action instanceof UpdateDictionaryFailAction) {
+        // TODO
+      }
+    });
   }
   
 }
