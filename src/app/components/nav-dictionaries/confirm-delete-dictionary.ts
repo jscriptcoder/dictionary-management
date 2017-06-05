@@ -33,18 +33,7 @@ import { MdDialogRef, MD_DIALOG_DATA } from '@angular/material';
 })
 export class ConfirmDeleteDictionaryComponent {
 
-  private dialogRef: MdDialogRef<ConfirmDeleteDictionaryComponent>;
-  public data: any;
-
   constructor(
-    dialogRef: MdDialogRef<ConfirmDeleteDictionaryComponent>, 
-    @Inject(MD_DIALOG_DATA) data: any) {
-
-    this.dialogRef = dialogRef;
-    this.data = data;
-  }
-
-  public yesDelete() {
-
-  }
+    private dialogRef: MdDialogRef<ConfirmDeleteDictionaryComponent>, 
+    @Inject(MD_DIALOG_DATA) public data: any) {}
 }

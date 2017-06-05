@@ -22,7 +22,7 @@ import { schema } from './db';
 @NgModule({
     declarations: [
         AppComponent,
-        BreadcrumbComponent,
+        BreadcrumbComponent
     ],
     imports: [
         BrowserModule,

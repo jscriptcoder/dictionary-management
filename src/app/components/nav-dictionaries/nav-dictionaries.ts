@@ -1,9 +1,19 @@
 import { Component, Input } from '@angular/core';
-import { MdDialog, MdDialogRef, MdSnackBar } from '@angular/material';
+import { MdDialog } from '@angular/material';
+import { Store } from '@ngrx/store';
 
+import * as fromRoot from '../../reducers';
+import { 
+    RemoveDictionaryAction, 
+    RemoveDictionarySuccessAction, 
+    RemoveDictionaryFailAction } from '../../actions/list-dictionaries';
 import { DictionariesEffects } from '../../effects/list-dictionaries';
 import { ConfirmDeleteDictionaryComponent } from './confirm-delete-dictionary';
 import { Dictionary } from '../../models/dictionary';
+import {
+  DictionaryMessageService, 
+  DictionaryActionMessage, 
+  DictionaryAction} from '../../services/dictionary-message';
 
 
 @Component({
@@ -12,23 +22,25 @@ import { Dictionary } from '../../models/dictionary';
   styleUrls: ['./nav-dictionaries.scss']
 })
 export class NavDictionariesComponent {
-  
+
   @Input() 
   public dictionaries: Dictionary[] = [];
-  public dialog: MdDialog;
 
-  constructor(dialog: MdDialog, dictsEffects: DictionariesEffects) {
+  private store: Store<fromRoot.State>;
+  private dialog: MdDialog;
+  private dicMessageService: DictionaryMessageService;
+
+  constructor(
+    store: Store<fromRoot.State>,
+    dialog: MdDialog,
+    dicMessageService: DictionaryMessageService,
+    dictsEffects: DictionariesEffects
+   ) {
+    this.store = store;
     this.dialog = dialog;
+    this.dicMessageService = dicMessageService;
 
-    /*
-    dictsEffects.updateDictionary$.subscribe(action => {
-      if (action instanceof UpdateDictionarySuccessAction) {
-        // TODO
-      } else if (action instanceof UpdateDictionaryFailAction) {
-        // TODO
-      }
-    });
-    */
+    this.addSubscriptions(dictsEffects);
   }
 
   public dialogConfirm(dictionary: Dictionary): void {
@@ -38,7 +50,24 @@ export class NavDictionariesComponent {
     });
 
     dialogRef.afterClosed().subscribe(result => {
-      console.log(result);
+      if (result === 'yes') {
+        this.store.dispatch(
+          new RemoveDictionaryAction(dictionary)
+        );
+      }
+    });
+  }
+
+  private addSubscriptions(dictsEffects: DictionariesEffects): void {
+    dictsEffects.removeDictionary$.subscribe(action => {
+      if (action instanceof RemoveDictionarySuccessAction) {
+        this.dicMessageService.next({
+          action: DictionaryAction.DELETE,
+          dictionary: action.payload
+        });
+      } else if (action instanceof RemoveDictionaryFailAction) {
+        // TODO
+      }
     });
   }
 }

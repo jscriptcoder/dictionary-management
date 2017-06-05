@@ -12,7 +12,10 @@ import { DictionariesEffects } from '../../effects/list-dictionaries';
 
 import { Dictionary } from '../../models/dictionary';
 import { FormDictionaryComponent } from '../../components/form-dictionary/form-dictionary';
-
+import {
+  DictionaryMessageService, 
+  DictionaryActionMessage, 
+  DictionaryAction } from '../../services/dictionary-message';
 
 @Component({
   selector: 'edit-dictionary',
@@ -26,17 +29,20 @@ export class EditDictionaryComponent implements OnInit {
   private store: Store<fromRoot.State>
   private router: Router;
   private route: ActivatedRoute;
+  private dicMessageService: DictionaryMessageService;
   private dictionary: Dictionary;
 
   constructor(
     store: Store<fromRoot.State>, 
     router: Router,
-    route: ActivatedRoute, 
+    route: ActivatedRoute,
+    dicMessageService: DictionaryMessageService,
     dictsEffects: DictionariesEffects
   ) {
     this.store = store;
     this.router = router;
     this.route = route;
+    this.dicMessageService = dicMessageService;
 
     this.addSubscriptions(dictsEffects);
   }
@@ -66,7 +72,14 @@ export class EditDictionaryComponent implements OnInit {
   private addSubscriptions(dictsEffects: DictionariesEffects): void {
     dictsEffects.updateDictionary$.subscribe(action => {
       if (action instanceof UpdateDictionarySuccessAction) {
+
+        this.dicMessageService.next({
+          action: DictionaryAction.UPDATE,
+          dictionary: action.payload
+        });
+
         this.router.navigate(['/dictionaries']);
+
       } else if (action instanceof UpdateDictionaryFailAction) {
         // TODO
       }

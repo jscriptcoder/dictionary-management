@@ -14,6 +14,10 @@ import { DictionariesEffects } from '../../effects/list-dictionaries';
 
 import { Dictionary } from '../../models/dictionary';
 import { FormDictionaryComponent } from '../../components/form-dictionary/form-dictionary';
+import {
+  DictionaryMessageService, 
+  DictionaryActionMessage, 
+  DictionaryAction } from '../../services/dictionary-message';
 
 
 @Component({
@@ -29,16 +33,19 @@ export class AddDictionaryComponent {
   private store: Store<fromRoot.State>
   private router: Router;
   private dictService: DictionaryService;
+  private dicMessageService: DictionaryMessageService;
 
   constructor(
     store: Store<fromRoot.State>, 
     router: Router,
     dictService: DictionaryService,
+    dicMessageService: DictionaryMessageService,
     dictsEffects: DictionariesEffects
   ) {
     this.store = store;
     this.router = router;
     this.dictService = dictService;
+    this.dicMessageService = dicMessageService;
 
     this.addSubscriptions(dictsEffects);
   }
@@ -62,7 +69,14 @@ export class AddDictionaryComponent {
     // to the store and checks what's changed. But this is easier.
     dictsEffects.addDictionary$.subscribe(action => {
       if (action instanceof AddDictionarySuccessAction) {
+
+        this.dicMessageService.next({
+          action: DictionaryAction.ADD,
+          dictionary: action.payload
+        });
+
         this.router.navigate(['/dictionaries']);
+
       } else if (action instanceof AddDictionarySuccessAction) {
         // TODO
       }
