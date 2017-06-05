@@ -87,11 +87,10 @@ export class FormDictionaryComponent implements OnInit {
     }
   }
 
-  public getSanitizedDictionary(): Dictionary {
-    const lastEntry = this.lastEntry;
-    if (lastEntry.domain === '' || lastEntry.range === '') {
-      this.dictionary.list = this.enteredEntries;
-    }
+  public sanitizeDictionary(): Dictionary {
+    this.dictionary.list = this.dictionary.list.filter(entry => {
+      return entry.domain !== '' && entry.range !== ''
+    });
 
     return this.dictionary;
   }

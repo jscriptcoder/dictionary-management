@@ -1,16 +1,18 @@
-<md-card class="add-dictionary">
-  <md-card-title>New Dictionary</md-card-title>
-  <md-card-content>
-  <form-dictionary [dictionary]="createEmptyDictionary()"></form-dictionary>
-  </md-card-content>
-  <md-card-actions>
-    <a class="cancel-new" md-raised-button [routerLink]="['/dictionaries/']">
-      <md-icon>cancel</md-icon>
-      <span>Cancel</span>
-    </a>
-    <button class="save-new" md-raised-button color="primary" (click)="saveDictionary()" [disabled]="!isDictionaryValid()">
-      <md-icon>note_add</md-icon>
-      <span>Add</span>
-    </button>
-  </md-card-actions>
+<md-card class="page add-dictionary">
+  <div class="card-inner">
+    <md-card-title>New Dictionary</md-card-title>
+    <md-card-content>
+    <form-dictionary [dictionary]="createEmptyDictionary()"></form-dictionary>
+    </md-card-content>
+    <md-card-actions>
+      <a class="cancel-new" md-raised-button [routerLink]="['/dictionaries/']">
+        <md-icon>cancel</md-icon>
+        <span>Cancel</span>
+      </a>
+      <button class="save-new" md-raised-button color="primary" (click)="saveDictionary()" [disabled]="!isDictionaryValid()">
+        <md-icon>note_add</md-icon>
+        <span>Add</span>
+      </button>
+    </md-card-actions>
+  </div>
 </md-card>

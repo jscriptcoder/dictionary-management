@@ -1,5 +1,14 @@
-<div class="detail-dictionary">
-  <h3 class="dictionary-name">{{dictionary.name}}</h3>
+<form class="detail-dictionary">
+  <md-input-container class="dictionary-name">
+
+    <input 
+      focus-input 
+      name="dictionary-name" 
+      mdInput 
+      [value]="dictionary.name"
+      readonly>
+
+  </md-input-container>
 
   <table cellspacing="0">
     <tr>
@@ -8,10 +17,29 @@
     </tr>
 
     <tr *ngFor="let entry of dictionary.list">
-      <td>{{entry.domain}}</td>
-      <td>{{entry.range}}</td>
+      <td>
+        <md-input-container>
+
+          <input 
+            name="domain-{{entry.domain | keyable}}" 
+            mdInput 
+            [value]="entry.domain"
+            readonly>
+
+        </md-input-container>
+      </td>
+      <td>
+        <md-input-container>
+
+          <input 
+            name="range_for-{{entry.domain | keyable}}" 
+            mdInput 
+            [value]="entry.range"
+            readonly>
+
+        </md-input-container>
+      </td>
     </tr>
 
   </table>
-
-</div>
+</form>

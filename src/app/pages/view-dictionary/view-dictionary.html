@@ -1,12 +1,14 @@
-<md-card class="view-dictionary">
-  <md-card-title>Dictionary</md-card-title>
-  <md-card-content>
-    <detail-dictionary [dictionary]="dictionary"></detail-dictionary>
-  </md-card-content>
-  <md-card-actions>
-    <a class="go-back" md-raised-button [routerLink]="['/dictionaries/']">
-      <md-icon>navigate_before</md-icon>
-      <span>Back</span>
-    </a>
-  </md-card-actions>
+<md-card class="page view-dictionary">
+  <div class="card-inner">
+    <md-card-title>Dictionary</md-card-title>
+    <md-card-content>
+      <detail-dictionary [dictionary]="dictionary"></detail-dictionary>
+    </md-card-content>
+    <md-card-actions>
+      <a class="go-back" md-raised-button [routerLink]="['/dictionaries/']">
+        <md-icon>navigate_before</md-icon>
+        <span>Back</span>
+      </a>
+    </md-card-actions>
+  </div>
 </md-card>

@@ -63,9 +63,14 @@ export class EditDictionaryComponent implements OnInit {
     return this.formDictionary.isDictionaryValid();
   }
 
+  public cancelEdit(): void {
+    this.formDictionary.sanitizeDictionary();
+    this.router.navigate(['/dictionaries']);
+  }
+
   public saveDictionary(): void {
     this.store.dispatch(
-      new UpdateDictionaryAction(this.formDictionary.getSanitizedDictionary())
+      new UpdateDictionaryAction(this.formDictionary.sanitizeDictionary())
     );
   }
 

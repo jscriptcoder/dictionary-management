@@ -1,16 +1,18 @@
-<md-card class="edit-dictionary">
-  <md-card-title>Edit {{dictionary.name}}</md-card-title>
-  <md-card-content>
-  <form-dictionary [dictionary]="getDictionary()"></form-dictionary>
-  </md-card-content>
-  <md-card-actions>
-    <a class="cancel-edit" md-raised-button [routerLink]="['/dictionaries/']">
-      <md-icon>cancel</md-icon>
-      <span>Cancel</span>
-    </a>
-    <button class="save-edit" md-raised-button color="primary" (click)="saveDictionary()" [disabled]="!isDictionaryValid()">
-      <md-icon>save</md-icon>
-      <span>Update</span>
-    </button>
-  </md-card-actions>
+<md-card class="page edit-dictionary">
+  <div class="card-inner">
+    <md-card-title>Edit {{dictionary.name}}</md-card-title>
+    <md-card-content>
+    <form-dictionary [dictionary]="getDictionary()"></form-dictionary>
+    </md-card-content>
+    <md-card-actions>
+      <button class="cancel-edit" md-raised-button (click)="cancelEdit()">
+        <md-icon>cancel</md-icon>
+        <span>Cancel</span>
+      </button>
+      <button class="save-edit" md-raised-button color="primary" (click)="saveDictionary()" [disabled]="!isDictionaryValid()">
+        <md-icon>save</md-icon>
+        <span>Update</span>
+      </button>
+    </md-card-actions>
+  </div>
 </md-card>

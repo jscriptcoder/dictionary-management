@@ -60,7 +60,7 @@ export class AddDictionaryComponent {
 
   public saveDictionary(): void {
     this.store.dispatch(
-      new AddDictionaryAction(this.formDictionary.getSanitizedDictionary())
+      new AddDictionaryAction(this.formDictionary.sanitizeDictionary())
     );
   }
 

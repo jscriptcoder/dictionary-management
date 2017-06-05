@@ -1,10 +1,12 @@
-<md-card class="list-dictionaries">
-  <md-card-title>List of Dictionaries</md-card-title>
-  <md-card-content>
-    <a class="add-new" md-raised-button color="primary" href="#/dictionaries/add">
-      <md-icon>book</md-icon>
-      <span>Add new Dictionary</span>
-    </a>
-    <nav-dictionaries [dictionaries]="dictionaries$ | async"></nav-dictionaries>
-  </md-card-content>
+<md-card class="page list-dictionaries">
+  <div class="card-inner">
+    <md-card-title>List of Dictionaries</md-card-title>
+    <md-card-content>
+      <a class="add-new" md-raised-button color="primary" href="#/dictionaries/add">
+        <md-icon>book</md-icon>
+        <span>Add new Dictionary</span>
+      </a>
+      <nav-dictionaries [dictionaries]="dictionaries$ | async"></nav-dictionaries>
+    </md-card-content>
+  </div>
 </md-card>

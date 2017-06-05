@@ -30,7 +30,7 @@ export class AppComponent {
     // parent component when an action against a dictionary 
     // happend
     dictMessageService.subscribe(dictAction => {
-      snackBar.open(SnackBarMessages[dictAction.action], 'Ok', {
+      snackBar.open(SnackBarMessages[dictAction.action], 'OK', {
         duration: 2000,
       });
     });

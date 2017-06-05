@@ -15,4 +15,26 @@ $candy-app-theme: mat-light-theme($candy-app-primary, $candy-app-accent, $candy-
 
 body { margin: 0; }
 
-md-card-title { text-align: center; }
+.app-content {
+  .card-inner { width: 100%; }
+
+  .mat-card {
+    display: flex;
+    justify-content: center;
+  }
+
+  .mat-card-title { text-align: center; }
+ 
+  form table,
+  .dictionary-name, 
+  td .mat-input-container { width: 100% }
+
+}
+
+@media (min-width: 600px) {
+
+  .app-content {
+    .card-inner { width: 600px; }
+  }
+
+}
