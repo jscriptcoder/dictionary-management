@@ -58,6 +58,11 @@ export function findFromDomain(domain: Domain, dictionary: Dictionary): [DomainR
   return [dictionary.list[domainRangeIdx], domainRangeIdx];
 }
 
+export function findFromRange(range: Range, dictionary: Dictionary): [DomainRange, number] {
+  const domainRangeIdx = dictionary.list.findIndex(entry => entry.range === range);
+  return [dictionary.list[domainRangeIdx], domainRangeIdx];
+}
+
 export function getRange(domain: Domain, dictionary: Dictionary): Range {
   const [domainRange, idx] = findFromDomain(domain, dictionary);
   return domainRange ? domainRange.range : void 0;
@@ -75,11 +80,15 @@ export function getRange(domain: Domain, dictionary: Dictionary): Range {
  */
 export function hasDuplicateDomainRange(dictionary: Dictionary): boolean {
   return !!dictionary.list.find((entry, idx) => {
-    return !!dictionary.list.find((entry2, idx2) => {
-      return idx2 !== idx && 
-        entry2.domain === entry.domain && 
-        entry2.range === entry.range;
-    });
+    return isEntryDuplicateDomainRange(entry, idx, dictionary);
+  });
+}
+
+export function isEntryDuplicateDomainRange(entry: DomainRange, idx: number, dictionary: Dictionary): boolean {
+  return !!dictionary.list.find((entry2, idx2) => {
+    return idx2 !== idx && 
+      entry2.domain === entry.domain && 
+      entry2.range === entry.range;
   });
 }
 
@@ -95,9 +104,13 @@ export function hasDuplicateDomainRange(dictionary: Dictionary): boolean {
  */
 export function hasDuplicateDomain(dictionary: Dictionary): boolean {
   return !!dictionary.list.find((entry, idx) => {
-    return !!dictionary.list.find((entry2, idx2) => {
-      return idx2 !== idx && entry2.domain === entry.domain;
-    });
+    return isEntryDuplicateDomain(entry, idx, dictionary);
+  });
+}
+
+export function isEntryDuplicateDomain(entry: DomainRange, idx: number, dictionary: Dictionary): boolean {
+  return !!dictionary.list.find((entry2, idx2) => {
+    return idx2 !== idx && entry2.domain === entry.domain;
   });
 }
 
@@ -113,7 +126,17 @@ export function hasDuplicateDomain(dictionary: Dictionary): boolean {
  *   range1 -> range2
  */
 export function hasChains(dictionary: Dictionary): boolean {
-  return !!findChain(dictionary);
+  return !!dictionary.list.find((entry, idx) => {
+    return isEntryPartOfChain(entry, idx, dictionary);
+  });
+}
+
+export function isEntryPartOfChain(entry: DomainRange, idx: number, dictionary: Dictionary): boolean {
+  let [chainEnd, idx2] = findFromDomain(<Domain>entry.range, dictionary);
+  let [chainStart, idx3] = findFromRange(<Range>entry.domain, dictionary);
+
+  return (!!chainEnd && idx2 !== idx) || 
+    (!!chainStart && idx3 !== idx);
 }
 
 /**
@@ -133,13 +156,15 @@ export function hasChains(dictionary: Dictionary): boolean {
  *   range2 -> domain1
  */
 export function hasCycles(dictionary: Dictionary): boolean {
-  const chain = findChain(dictionary);
-  if (chain) {
-    const [chainStart, chainEnd] = chain;
-    return chainStart[0] === chainEnd[1] && chainStart[1] === chainEnd[0];
-  } else {
-    return false;
-  }
+  return !!dictionary.list.find((entry, idx) => {
+    return isEntryPartOfCycle(entry, idx, dictionary);
+  });
+}
+
+export function isEntryPartOfCycle(entry: DomainRange, idx: number, dictionary: Dictionary): boolean {
+  let [chainEnd, idx2] = findFromDomain(<Domain>entry.range, dictionary);
+
+  return !!chainEnd && idx2 !== idx && entry.domain === chainEnd.range && entry.range === chainEnd.domain;
 }
 
 /* Private functions: */
@@ -175,27 +200,4 @@ function deleteEntry(domain: Domain, dictionary: Dictionary): Dictionary {
 function hasDomain(domain: Domain, dictionary: Dictionary): boolean {
   const [domainRange, ] = findFromDomain(domain, dictionary);
   return !!domainRange;
-}
-
-function findChain(dictionary: Dictionary): MaybeChain {
-  let chainStart: DomainRange;
-  let chainEnd: DomainRange;
-
-  chainStart = dictionary.list.find((entry, idx) => {
-    return !!dictionary.list.find((entry2, idx2) => {
-      return idx2 !== idx && entry2.domain === entry.range;
-    });
-  });
-
-  if (chainStart) {
-    [chainEnd, ] = findFromDomain(<Domain>chainStart.range, dictionary);
-
-    return [chainStart, chainEnd];
-  }
-}
-
-// Will find short and long cycles
-function findCyle(dictionary: Dictionary): MaybeCyle {
-  // TODO
-  return;
 }

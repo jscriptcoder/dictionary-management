@@ -53,14 +53,32 @@ describe('Dictionary', () => {
     expect(domainRange.range).toBe('Range 2');
   });
 
-  it('checks wether there are duplicate domains', () => {
+  it('finds an entry passing the range', () => {
+    const [domainRange, idx] = Dictionary.findFromRange('Range 3', dictionary);
+    expect(idx).toBe(2);
+    expect(domainRange.domain).toBe('Domain 3');
+    expect(domainRange.range).toBe('Range 3');
+  });
+
+  it('checks whether there are duplicate domains', () => {
     expect(Dictionary.hasDuplicateDomain(dictionary)).toBeFalsy();
 
     const dictionary2 = Dictionary.add('Domain 2', 'Range X', dictionary);
     expect(Dictionary.hasDuplicateDomain(dictionary2)).toBeTruthy();
   });
 
-  it('checks wether there are duplicate domain/range', () => {
+  it('checks whether an entry has duplicate domain', () => {
+    const dictionary2 = Dictionary.add('Domain 1', 'Range 4', dictionary);
+    const firstEntryIdx = 0, firstEntry = dictionary2.list[firstEntryIdx]; // has duplicate
+    const secondEntryIdx = 1, secondEntry = dictionary2.list[secondEntryIdx]; // doesn't
+    const lastEntryIdx = dictionary2.list.length - 1, lastEntry = dictionary2.list[lastEntryIdx]; // does
+
+    expect(Dictionary.isEntryDuplicateDomain(firstEntry, firstEntryIdx, dictionary2)).toBeTruthy();
+    expect(Dictionary.isEntryDuplicateDomain(secondEntry, secondEntryIdx, dictionary2)).toBeFalsy();
+    expect(Dictionary.isEntryDuplicateDomain(lastEntry, lastEntryIdx, dictionary2)).toBeTruthy();
+  });
+
+  it('checks whether there are duplicate domain/range', () => {
     expect(Dictionary.hasDuplicateDomainRange(dictionary)).toBeFalsy();
 
     const dictionary2 = Dictionary.add('Domain 2', 'Range X', dictionary);
@@ -69,6 +87,17 @@ describe('Dictionary', () => {
 
     const dictionary3 = Dictionary.add('Domain 2', 'Range 2', dictionary);
     expect(Dictionary.hasDuplicateDomainRange(dictionary3)).toBeTruthy();
+  });
+
+  it('checks whether an entry has duplicate domain/range', () => {
+    const dictionary2 = Dictionary.add('Domain 1', 'Range 1', dictionary);
+    const firstEntryIdx = 0, firstEntry = dictionary2.list[firstEntryIdx]; // has duplicate
+    const secondEntryIdx = 1, secondEntry = dictionary2.list[secondEntryIdx]; // doesn't
+    const lastEntryIdx = dictionary2.list.length - 1, lastEntry = dictionary2.list[lastEntryIdx]; // does
+
+    expect(Dictionary.isEntryDuplicateDomainRange(firstEntry, firstEntryIdx, dictionary2)).toBeTruthy();
+    expect(Dictionary.isEntryDuplicateDomainRange(secondEntry, secondEntryIdx, dictionary2)).toBeFalsy();
+    expect(Dictionary.isEntryDuplicateDomainRange(lastEntry, lastEntryIdx, dictionary2)).toBeTruthy();
   });
 
   it('checks whether there are chains in a dictionary', () => {
@@ -85,6 +114,17 @@ describe('Dictionary', () => {
     expect(Dictionary.hasChains(dictionary3)).toBeFalsy();
   });
 
+  it('checks whether an entry is part of a chain', () => {
+    const dictionary2 = Dictionary.add('Range 1', 'Range 4', dictionary);
+    const firstEntryIdx = 0, firstEntry = dictionary2.list[firstEntryIdx]; // is chain
+    const secondEntryIdx = 1, secondEntry = dictionary2.list[secondEntryIdx]; // isn't
+    const lastEntryIdx = dictionary2.list.length - 1, lastEntry = dictionary2.list[lastEntryIdx]; // is
+
+    expect(Dictionary.isEntryPartOfChain(firstEntry, firstEntryIdx, dictionary2)).toBeTruthy();
+    expect(Dictionary.isEntryPartOfChain(secondEntry, secondEntryIdx, dictionary2)).toBeFalsy();
+    expect(Dictionary.isEntryPartOfChain(lastEntry, lastEntryIdx, dictionary2)).toBeTruthy();
+  });
+
   it('checks whether there are cycles in a dictionary', () => {
     expect(Dictionary.hasCycles(dictionary)).toBeFalsy();
     
@@ -93,6 +133,17 @@ describe('Dictionary', () => {
     expect(Dictionary.size(dictionary2)).toBe(4);
     expect(Dictionary.hasChains(dictionary2)).toBeTruthy();
     expect(Dictionary.hasCycles(dictionary2)).toBeTruthy();
+  });
+
+  it('checks whether an entry is part of a cycle', () => {
+    const dictionary2 = Dictionary.add('Range 1', 'Domain 1', dictionary);
+    const firstEntryIdx = 0, firstEntry = dictionary2.list[firstEntryIdx]; // is cycle
+    const secondEntryIdx = 1, secondEntry = dictionary2.list[secondEntryIdx]; // isn't
+    const lastEntryIdx = dictionary2.list.length - 1, lastEntry = dictionary2.list[lastEntryIdx]; // is
+
+    expect(Dictionary.isEntryPartOfCycle(firstEntry, firstEntryIdx, dictionary2)).toBeTruthy();
+    expect(Dictionary.isEntryPartOfCycle(secondEntry, secondEntryIdx, dictionary2)).toBeFalsy();
+    expect(Dictionary.isEntryPartOfCycle(lastEntry, lastEntryIdx, dictionary2)).toBeTruthy();
   });
 
 });
