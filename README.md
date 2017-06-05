@@ -21,9 +21,9 @@ Validations should be shown as some kind of problem markers next to the offendin
 2. Angular CLI (https://github.com/angular/angular-cli)
 3. Angular Material Design (https://github.com/angular/material2)
 4. ngrx (https://github.com/ngrx)
-  4.1 ngrx/store (https://github.com/ngrx/store)
-  4.2 ngrx/effects (https://github.com/ngrx/effects)
-  4.3 ngrx/db for IndexedDB storage (https://github.com/ngrx/db)
+   * ngrx/store (https://github.com/ngrx/store)
+   * ngrx/effects (https://github.com/ngrx/effects)
+   * ngrx/db for IndexedDB storage (https://github.com/ngrx/db)
 5. Typescript (https://github.com/Microsoft/TypeScript)
 6. Webpack under the hood (https://github.com/webpack)
 
