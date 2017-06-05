@@ -44,7 +44,7 @@
 
         </md-input-container>
 
-        <button title="Delete entry" class="delete-entry" color="warn" md-mini-fab (click)="deleteEntry(idx)">
+        <button mdTooltip="Delete entry" mdTooltipPosition="right" class="delete-entry" color="warn" md-mini-fab (click)="deleteEntry(idx)">
           <md-icon>clear</md-icon>
         </button>
       </td>
@@ -73,7 +73,7 @@
 
         </md-input-container>
 
-        <button title="Empty entry" class="delete-entry" color="warn" md-mini-fab (click)="emptyLastEntry()">
+        <button mdTooltip="Clear entry" mdTooltipPosition="right" class="delete-entry" color="warn" md-mini-fab (click)="emptyLastEntry()">
           <md-icon>clear</md-icon>
         </button>
       </td>

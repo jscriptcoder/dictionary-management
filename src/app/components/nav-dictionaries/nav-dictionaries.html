@@ -3,10 +3,10 @@
       <a md-line [routerLink]="['/dictionaries/view/', dictionary.id]">{{dictionary.name}}</a>
 
       <span class="dictionary-actions">
-        <a title="Edit dictionary" class="edit-dictionary" md-mini-fab [routerLink]="['/dictionaries/edit/', dictionary.id]">
+        <a mdTooltip="Edit dictionary" mdTooltipPosition="below" class="edit-dictionary" md-mini-fab [routerLink]="['/dictionaries/edit/', dictionary.id]">
           <md-icon>mode_edit</md-icon>
         </a>
-        <button title="Delete dictionary" class="delete-dictionary" color="warn" md-mini-fab (click)="dialogConfirm(dictionary)">
+        <button mdTooltip="Delete dictionary" mdTooltipPosition="below" class="delete-dictionary" color="warn" md-mini-fab (click)="dialogConfirm(dictionary)">
           <md-icon>delete</md-icon>
         </button>
       </span>

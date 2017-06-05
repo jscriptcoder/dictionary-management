@@ -21,6 +21,7 @@ import { MdDialogRef, MD_DIALOG_DATA } from '@angular/material';
     </div>
   `,
   styles: [`
+    :host { font-family: Roboto,"Helvetica Neue",sans-serif; }
     [md-dialog-title] {
       display: flex;
       justify-content: space-between;
