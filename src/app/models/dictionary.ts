@@ -8,6 +8,7 @@ export type Range = string;
 export interface DomainRange {
   domain: Domain;
   range: Range;
+  id: number;
 }
 
 export interface Dictionary {
@@ -174,7 +175,7 @@ const uuid = () => new Date().getTime();
 function addEntry(domain: Domain, range: Range, dictionary: Dictionary): Dictionary {
   const list = [...dictionary.list];
 
-  list.push({ domain, range });
+  list.push({ domain, range, id: uuid() });
 
   return Object.assign({}, dictionary, { list });
 }

@@ -76,11 +76,14 @@ export class FormDictionaryComponent implements OnInit {
       const lastEntry = this.lastEntry;
 
       // This validation only checks whether the dictionary
-      // has a title, it's not empty, and all its entries are 
-      // populated, except the case the last one, newEmptyEntry, 
-      // is completely empty, in which case it's still valid.
+      // has a title, it's not empty, there are no chains nor 
+      // cycles and all its entries are populated, except the 
+      // case the last one, newEmptyEntry, is completely empty, 
+      // in which case it's still valid.
       return this.dictionary.name !== '' &&
-        !this.enteredEntries.find((entry, idx) => !this.isEntryValid(idx)) &&
+        !this.enteredEntries.find((entry, idx) => {
+          return !this.isEntryValid(idx) || this.isChainOrCycle(entry, idx)
+        }) &&
         (
           // Either the both values are populated
           (lastEntry.domain !== '' && lastEntry.range !== '') ||
@@ -101,11 +104,15 @@ export class FormDictionaryComponent implements OnInit {
     return this.dictionary;
   }
 
-  /*
-  public isWarning(entry: DomainRange, iconElem: ElementRef): boolean {
-
+  public isDuplicateDomain(entry: DomainRange, idx: number): boolean {
+    return this.dictService.isEntryDuplicateDomain(entry, idx, this.dictionary) ||
+      this.dictService.isEntryDuplicateDomainRange(entry, idx, this.dictionary);
   }
-  */
+
+  public isChainOrCycle(entry: DomainRange, idx: number): boolean {
+    return this.dictService.isEntryPartOfChain(entry, idx, this.dictionary) ||
+      this.dictService.isEntryPartOfCycle(entry, idx, this.dictionary);
+  }
 
   private isLastEntryValid(): boolean {
     return this.lastEntry.domain !== '' && this.lastEntry.range !== '';
@@ -118,6 +125,10 @@ export class FormDictionaryComponent implements OnInit {
 
   private addEmptyEntry(): void {
     // I know, I'm mutating
-    this.dictionary.list.push({ domain: '', range: '' });
+    this.dictionary.list.push({
+      domain: '', 
+      range: '', 
+      id: new Date().getTime()
+    });
   }
 }

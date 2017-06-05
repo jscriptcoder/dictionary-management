@@ -36,11 +36,11 @@
   }
 
   .inconsistency-marker {
-    display: none;
     position: absolute;
     top: 0;
     left: 0;
     font-size: 16px;
+    z-index: 1;
     
     &.warning { color: map_get($mat-yellow, 700); }
     &.error { color: map_get($mat-red, 500); }

@@ -1,3 +1,4 @@
+@import '~@angular/material/theming';
 @import '../../mixins';
 
 .detail-dictionary {
@@ -7,6 +8,20 @@
   table {
     @include box(1px, 2px, 10px);
     margin-top: 10px;
+
+    td { position: relative; }
+  }
+
+  // We're repeating these styles. TODO: Share it
+  .inconsistency-marker {
+    position: absolute;
+    top: 0;
+    left: 0;
+    font-size: 16px;
+    z-index: 1;
+    
+    &.warning { color: map_get($mat-yellow, 700); }
+    &.error { color: map_get($mat-red, 500); }
   }
 
 }

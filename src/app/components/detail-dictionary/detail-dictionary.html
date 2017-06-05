@@ -16,8 +16,13 @@
       <th>Range</th>
     </tr>
 
-    <tr *ngFor="let entry of dictionary.list">
+    <tr *ngFor="let entry of dictionary.list; let idx = index">
       <td>
+
+        <md-icon class="inconsistency-marker warning" *ngIf="isDuplicateDomain(entry, idx)" mdTooltip="Duplicate domain or domain/range" mdTooltipPosition="above">warning</md-icon>
+
+        <md-icon class="inconsistency-marker error" *ngIf="isChainOrCycle(entry)" mdTooltip="Part of a chain or cycle" mdTooltipPosition="above">error</md-icon>
+
         <md-input-container>
 
           <input 

@@ -18,18 +18,17 @@
       <th>Range</th>
     </tr>
 
-    <tr *ngFor="let entry of enteredEntries">
+    <tr *ngFor="let entry of enteredEntries; let idx = index">
       <td>
 
-        <!--
-        <md-icon #iconElem class="inconsistency-marker warning" [hidden]="isWarning(entry, iconElem)">warning</md-icon>
-        <md-icon #iconElem class="inconsistency-marker error" [hidden]="isError(entry, iconElem)">error</md-icon>
-        -->
+        <md-icon class="inconsistency-marker warning" *ngIf="isDuplicateDomain(entry, idx)" mdTooltip="Duplicate domain or domain/range" mdTooltipPosition="above">warning</md-icon>
+
+        <md-icon class="inconsistency-marker error" *ngIf="isChainOrCycle(entry)" mdTooltip="Part of a chain or cycle" mdTooltipPosition="above">error</md-icon>
 
         <md-input-container>
 
           <input 
-            name="domain-{{entry.domain | keyable}}" 
+            name="domain_{{entry.domain | keyable}}-{{entry.id}}" 
             mdInput 
             [(ngModel)]="entry.domain">
 
@@ -39,7 +38,7 @@
         <md-input-container>
 
           <input 
-            name="range_for-{{entry.domain | keyable}}" 
+            name="range_{{entry.range | keyable}}-{{entry.id}}" 
             mdInput 
             [(ngModel)]="entry.range"
             required>
