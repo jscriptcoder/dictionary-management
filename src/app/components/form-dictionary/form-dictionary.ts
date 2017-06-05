@@ -1,5 +1,6 @@
 import { Component, Input, OnInit ,ViewChild, ElementRef } from '@angular/core';
 import { Dictionary, Domain, DomainRange } from '../../models/dictionary';
+import { DictionaryService } from '../../services/dictionary';
 
 enum KEY_CODES {
   tab = 9,
@@ -15,6 +16,7 @@ enum KEY_CODES {
   selector: 'form-dictionary',
   templateUrl: './form-dictionary.html',
   styleUrls: ['./form-dictionary.scss'],
+  providers: [ DictionaryService ]
 })
 export class FormDictionaryComponent implements OnInit {
 
@@ -24,6 +26,10 @@ export class FormDictionaryComponent implements OnInit {
 
   @ViewChild('newEntryDomainInput')
   public newEntryDomainInput: ElementRef;
+
+  constructor(
+    private dictService: DictionaryService
+  ) {}
 
   public ngOnInit(): void {
     // This is necessary since the input is readonly
@@ -94,6 +100,12 @@ export class FormDictionaryComponent implements OnInit {
 
     return this.dictionary;
   }
+
+  /*
+  public isWarning(entry: DomainRange, iconElem: ElementRef): boolean {
+
+  }
+  */
 
   private isLastEntryValid(): boolean {
     return this.lastEntry.domain !== '' && this.lastEntry.range !== '';

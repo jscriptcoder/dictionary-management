@@ -1,3 +1,4 @@
+@import '~@angular/material/theming';
 @import '../../mixins';
 
 .form-dictionary {
@@ -28,11 +29,21 @@
         }
       }
 
+      td { position: relative; }
+
       &:hover .delete-entry { display: block; }
     }
   }
 
-  .input-range-wrapper { position: relative; }
-
+  .inconsistency-marker {
+    display: none;
+    position: absolute;
+    top: 0;
+    left: 0;
+    font-size: 16px;
+    
+    &.warning { color: map_get($mat-yellow, 700); }
+    &.error { color: map_get($mat-red, 500); }
+  }
 
 }
