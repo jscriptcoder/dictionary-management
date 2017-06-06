@@ -1,5 +1,3 @@
-import { Map } from 'immutable';
-
 /* Types: */
 
 export type Domain = string;

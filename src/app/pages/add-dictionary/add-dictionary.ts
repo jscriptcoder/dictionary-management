@@ -77,7 +77,7 @@ export class AddDictionaryComponent {
 
         this.router.navigate(['/dictionaries']);
 
-      } else if (action instanceof AddDictionarySuccessAction) {
+      } else if (action instanceof AddDictionaryFailAction) {
         // TODO
       }
     });
